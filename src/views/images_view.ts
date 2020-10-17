@@ -5,7 +5,7 @@ export default {
     render(image: Image) {
         return {
             id: image.id,
-            url: `http://localhost:3333/uploads/${encodeURIComponent(image.path)}`,
+            url: process.env.URL_IMAGES + encodeURIComponent(image.path),
         }
     },
 
