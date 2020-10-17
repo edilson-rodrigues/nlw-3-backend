@@ -1,12 +1,14 @@
 import express from 'express';
-import { getRepository } from 'typeorm';
-import Orphanege from './models/Orphanage';
+
 
 import './database/connection';
+import './routes';
+import routes from './routes';
 
 const app = express();
 
 app.use(express.json());
+app.use(routes);
 
 /* app.post('/users/:id', (request, response) => {
     console.log(request.query);
@@ -14,33 +16,5 @@ app.use(express.json());
     console.log(request.body);
     return response.json({ message: 'hello world' });
 }); */
-
-app.post('/orphanages', async (request, response) => {
-    const {
-        name,
-        latitude,
-        longitude,
-        about,
-        instructions,
-        opening_hours,
-        open_on_weekends
-    } = request.body;
-
-    const orphanagesRepository = getRepository(Orphanege);
-
-    const orphanage = orphanagesRepository.create({
-        name,
-        latitude,
-        longitude,
-        about,
-        instructions,
-        opening_hours,
-        open_on_weekends,
-    });
-
-    await orphanagesRepository.save(orphanage);
-
-    return response.status(201).json({ orphanage });
-});
 
 app.listen(3333);
