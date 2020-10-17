@@ -1,5 +1,4 @@
 import Image from '../models/Image'
-
 //adicionado encodeUriComponent para resolver problemas com espaços no nome das images
 export default {
     render(image: Image) {
