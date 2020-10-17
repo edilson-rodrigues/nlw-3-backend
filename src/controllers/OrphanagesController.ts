@@ -3,31 +3,40 @@ import { getRepository } from 'typeorm';
 import Orphanege from '../models/Orphanage';
 
 export default {
-    async create(request: Request, response: Response) {
-        const {
-            name,
-            latitude,
-            longitude,
-            about,
-            instructions,
-            opening_hours,
-            open_on_weekends
-        } = request.body;
+  async index(request: Request, response: Response) {
 
-        const orphanagesRepository = getRepository(Orphanege);
+    const orphanagesRepository = getRepository(Orphanege);
 
-        const orphanage = orphanagesRepository.create({
-            name,
-            latitude,
-            longitude,
-            about,
-            instructions,
-            opening_hours,
-            open_on_weekends,
-        });
+    const orphanages = await orphanagesRepository.find();
 
-        await orphanagesRepository.save(orphanage);
+    return response.json(orphanages);
+  },
 
-        return response.status(201).json({ orphanage });
-    }
+  async create(request: Request, response: Response) {
+    const {
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends
+    } = request.body;
+
+    const orphanagesRepository = getRepository(Orphanege);
+
+    const orphanage = orphanagesRepository.create({
+      name,
+      latitude,
+      longitude,
+      about,
+      instructions,
+      opening_hours,
+      open_on_weekends,
+    });
+
+    await orphanagesRepository.save(orphanage);
+
+    return response.status(201).json({ orphanage });
+  }
 };
