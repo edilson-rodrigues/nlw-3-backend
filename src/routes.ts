@@ -1,14 +1,14 @@
 import { Router } from 'express';
+import multer from 'multer';
+
+import uploadConfig from './config/upload';
 import OrphanagesController from './controllers/OrphanagesController';
 
 const routes = Router();
-//MVC
-//Model  -  represetação de uma tabela no banco, não diretamente
-//Views -  como são visualizadas no frontend
-//Controllers - onde irá ficar nossa logica
+const upload = multer(uploadConfig);
 
 routes.get('/orphanages', OrphanagesController.index);
 routes.get('/orphanages/:id', OrphanagesController.show);
-routes.post('/orphanages', OrphanagesController.create);
+routes.post('/orphanages', upload.array('images'), OrphanagesController.create);
 
 export default routes;
